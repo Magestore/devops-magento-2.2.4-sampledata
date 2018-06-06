@@ -104,10 +104,6 @@ class CreateTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(1, $newOrderItems->count());
 
-        $order->loadByIncrementId('100000001');
-        $this->assertEquals($newOrder->getRealOrderId(), $order->getRelationChildRealId());
-        $this->assertEquals($newOrder->getId(), $order->getRelationChildId());
-
         $newOrderItem = $newOrderItems->getFirstItem();
 
         $this->assertEquals(

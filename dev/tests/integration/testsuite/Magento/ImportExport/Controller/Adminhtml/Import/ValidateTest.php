@@ -18,11 +18,10 @@ class ValidateTest extends \Magento\TestFramework\TestCase\AbstractBackendContro
      * @dataProvider validationDataProvider
      * @param string $fileName
      * @param string $message
-     * @param string $delimiter
      * @backupGlobals enabled
      * @magentoDbIsolation enabled
      */
-    public function testValidationReturn($fileName, $message, $delimiter)
+    public function testValidationReturn($fileName, $message)
     {
         $validationStrategy = ProcessingErrorAggregatorInterface::VALIDATION_STRATEGY_STOP_ON_ERROR;
 
@@ -37,7 +36,7 @@ class ValidateTest extends \Magento\TestFramework\TestCase\AbstractBackendContro
         $this->getRequest()->setPostValue('behavior', 'append');
         $this->getRequest()->setPostValue(Import::FIELD_NAME_VALIDATION_STRATEGY, $validationStrategy);
         $this->getRequest()->setPostValue(Import::FIELD_NAME_ALLOWED_ERROR_COUNT, 0);
-        $this->getRequest()->setPostValue('_import_field_separator', $delimiter);
+        $this->getRequest()->setPostValue('_import_field_separator', ',');
 
         /** @var \Magento\TestFramework\App\Filesystem $filesystem */
         $filesystem = $this->_objectManager->get(\Magento\Framework\Filesystem::class);
@@ -84,24 +83,12 @@ class ValidateTest extends \Magento\TestFramework\TestCase\AbstractBackendContro
         return [
             [
                 'file_name' => 'catalog_product.csv',
-                'message' => 'File is valid',
-                'delimiter' => ',',
+                'message' => 'File is valid'
             ],
             [
                 'file_name' => 'test.txt',
-                'message' => '\'txt\' file extension is not supported',
-                'delimiter' => ',',
-            ],
-            [
-                'file_name' => 'incorrect_catalog_product_comma.csv',
-                'message' => 'Download full report',
-                'delimiter' => ',',
-            ],
-            [
-                'file_name' => 'incorrect_catalog_product_semicolon.csv',
-                'message' => 'Download full report',
-                'delimiter' => ';',
-            ],
+                'message' => '\'txt\' file extension is not supported'
+            ]
         ];
     }
 }

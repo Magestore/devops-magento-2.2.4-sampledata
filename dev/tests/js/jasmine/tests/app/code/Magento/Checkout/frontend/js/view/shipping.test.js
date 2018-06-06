@@ -80,12 +80,7 @@ define(['squire', 'ko', 'jquery', 'jquery/validate'], function (Squire, ko, $) {
     describe('Magento_Checkout/js/view/shipping', function () {
         describe('"navigate" method', function () {
             it('Check for return value.', function () {
-                var step = {
-                    isVisible: ko.observable(false)
-                };
-
-                expect(obj.navigate(step)).toBeUndefined();
-                expect(step.isVisible()).toBe(true);
+                expect(obj.navigate()).toBeUndefined();
             });
         });
 

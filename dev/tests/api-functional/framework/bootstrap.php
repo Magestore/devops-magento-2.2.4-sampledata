@@ -58,8 +58,10 @@ try {
     );
 
     if (defined('TESTS_MAGENTO_INSTALLATION') && TESTS_MAGENTO_INSTALLATION === 'enabled') {
-        $cleanup = (defined('TESTS_CLEANUP') && TESTS_CLEANUP === 'enabled');
-        $application->install($cleanup);
+        if (defined('TESTS_CLEANUP') && TESTS_CLEANUP === 'enabled') {
+            $application->cleanup();
+        }
+        $application->install();
     }
 
     $bootstrap = new \Magento\TestFramework\Bootstrap(

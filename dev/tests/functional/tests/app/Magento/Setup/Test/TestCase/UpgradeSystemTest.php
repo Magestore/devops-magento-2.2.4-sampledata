@@ -109,7 +109,7 @@ class UpgradeSystemTest extends Injectable
         $this->setupWizard->getSetupHome()->clickSystemUpgrade();
         $this->setupWizard->getSelectVersion()->fill($upgradeFixture);
         if ($upgrade['otherComponents'] === 'Yes') {
-            $this->setupWizard->getSelectVersion()->chooseUpgradeOtherComponents($upgrade['otherComponentsList']);
+            $this->setupWizard->getSelectVersion()->chooseUpgradeOtherComponents();
         }
         $this->setupWizard->getSelectVersion()->clickNext();
 
@@ -123,8 +123,7 @@ class UpgradeSystemTest extends Injectable
         $this->setupWizard->getCreateBackup()->clickNext();
 
         // Check info and press 'Upgrade' button
-        $upgrade['version'] = $version;
-        $assertVersionAndEdition->processAssert($this->setupWizard, $upgrade);
+        $assertVersionAndEdition->processAssert($this->setupWizard, $upgrade['package'], $version);
         $this->setupWizard->getSystemUpgrade()->clickSystemUpgrade();
 
         $assertSuccessMessage->processAssert($this->setupWizard, $upgrade['package']);

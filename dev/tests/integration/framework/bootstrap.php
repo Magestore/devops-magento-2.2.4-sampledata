@@ -74,7 +74,7 @@ try {
         $application->cleanup();
     }
     if (!$application->isInstalled()) {
-        $application->install($settings->getAsBoolean('TESTS_CLEANUP'));
+        $application->install();
     }
     $application->initialize([]);
 

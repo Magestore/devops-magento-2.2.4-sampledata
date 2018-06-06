@@ -5,7 +5,6 @@
  */
 namespace Magento\Framework\Session;
 
-use Magento\Framework\App\State;
 use Zend\Stdlib\Parameters;
 
 class SidResolverTest extends \PHPUnit\Framework\TestCase
@@ -50,11 +49,6 @@ class SidResolverTest extends \PHPUnit\Framework\TestCase
      */
     protected $request;
 
-    /**
-     * @var State|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $appState;
-
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -76,11 +70,6 @@ class SidResolverTest extends \PHPUnit\Framework\TestCase
 
         $this->request = $objectManager->get(\Magento\Framework\App\RequestInterface::class);
 
-        $this->appState = $this->getMockBuilder(State::class)
-            ->setMethods(['getAreaCode'])
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->model = $objectManager->create(
             \Magento\Framework\Session\SidResolver::class,
             [
@@ -88,7 +77,6 @@ class SidResolverTest extends \PHPUnit\Framework\TestCase
                 'urlBuilder' => $this->urlBuilder,
                 'sidNameMap' => [$this->customSessionName => $this->customSessionQueryParam],
                 'request' => $this->request,
-                'appState' => $this->appState,
             ]
         );
     }
@@ -107,10 +95,6 @@ class SidResolverTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetSid($sid, $useFrontedSid, $isOwnOriginUrl, $testSid)
     {
-        $this->appState->expects($this->atLeastOnce())
-            ->method('getAreaCode')
-            ->willReturn(\Magento\Framework\App\Area::AREA_FRONTEND);
-
         $this->scopeConfig->expects(
             $this->any()
         )->method(

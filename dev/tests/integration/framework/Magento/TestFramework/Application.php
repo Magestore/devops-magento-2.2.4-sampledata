@@ -435,11 +435,10 @@ class Application
     /**
      * Install an application
      *
-     * @param bool $cleanup
      * @return void
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function install($cleanup)
+    public function install()
     {
         $dirs = \Magento\Framework\App\Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS;
         $this->_ensureDirExists($this->installDir);
@@ -454,9 +453,8 @@ class Application
         $installParams = $this->getInstallCliParams();
 
         // performance optimization: restore DB from last good dump to make installation on top of it (much faster)
-        // do not restore from the database if the cleanup option is set to ensure we have a clean DB to test on
         $db = $this->getDbInstance();
-        if ($db->isDbDumpExists() && !$cleanup) {
+        if ($db->isDbDumpExists()) {
             $db->restoreFromDbDump();
         }
 
